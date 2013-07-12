@@ -38,4 +38,6 @@ example
 0 * * * * /usr/bin/php /PATH_TO_PANMONITORING/check.php
 ````
 
-
+##Advanced info
+* Each pixel column on the graph is a 1 hour, each graph contains the information for 48 hours
+* To draw graphs commands must return numeric values in percent. 0% - good, 100% - bad
