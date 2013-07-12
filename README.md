@@ -1,7 +1,7 @@
 Panmonitoring
 =============
 
-Simple servers monitoring tool
+Simple linux servers monitoring tool
 
 
 #Installation
