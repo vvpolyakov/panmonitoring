@@ -10,7 +10,7 @@ $services=array(
 $servers=array(
     "localhost"=>"root"
 );
-$pubkey = "/HOMEPATH/.ssh/id_rsa.pub";
-$privkey = "/HOMEPATH/.ssh/id_rsa";
+$pubkey = "/root/.ssh/id_rsa.pub";
+$privkey = "/root/.ssh/id_rsa";
 
 ?>

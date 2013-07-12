@@ -5,6 +5,10 @@ if (!function_exists("ssh2_connect")) {
 }
 require("settings.php");
 
+if (!is_dir(__DIR__."/data")) {
+    mkdir(__DIR__."/data");
+}
+
 $all = glob(__DIR__."/data/*");
 foreach ($all as $file) {
     $time_sec=time(); 
