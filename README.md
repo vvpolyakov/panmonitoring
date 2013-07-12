@@ -41,3 +41,6 @@ example
 ##Advanced info
 * Each pixel column on the graph is a 1 hour, each graph contains the information for 48 hours
 * To draw graphs commands must return numeric values in percent. 0% - good, 100% - bad
+* Values greater than 80% are displayed in red
+
+![ScreenShot](http://dasich.panweb.com/app/file/696183809.jpg)
