@@ -3,6 +3,8 @@ Panmonitoring
 
 Simple linux servers monitoring tool
 
+updates:
+06.09.2013 - Email notifications if ("%" > 80) AND (current "%" > previous "%")
 
 #Installation
 
