@@ -16,6 +16,7 @@ $services=array(
 "HDD"=>"df -h | awk '/\// {printf(\"%s - %u%% (%s из %s)\\n\",$1,$5,$3,$2)}' | grep '/dev'"
 );
 
+$email="alarm@spam.su";
 
 /*
 $servers=array(
