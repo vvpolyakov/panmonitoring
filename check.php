@@ -60,7 +60,8 @@ function alert($host,$name,$n,$value) {
     
     $k = preg_match("/([\d\.]+)%/",$oh->{$host}->{$name},$matches);
     if ($k>0) {
-	if ($value > $matches[$n]) {
+//	if ($value > $matches[$n]) {
+	if ($matches[$n] < 80) {
 	    print "ALARM!!!!!!!!!!!!!!!!!!!\n";
 	    mail($email,"ALARM! $host - $name - $value%","ALARM! $host - $name - $value%");
 	}
