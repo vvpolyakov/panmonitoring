@@ -16,6 +16,12 @@ $services=array(
 "HDD"=>"df -h | awk '/\// {printf(\"%s - %u%% (%s из %s)\\n\",$1,$5,$3,$2)}' | grep '/dev'"
 );
 
+
+$functions_1min=array(
+"HTTP status"=>"http"
+);
+
+
 $email="alarm@spam.su";
 
 /*

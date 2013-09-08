@@ -20,6 +20,8 @@
 <?
     header("Content-type: text/html;charset=UTF-8");
     require("settings.php");
+    
+    $services = array_merge($services,$functions_1min);
 
     $date = date_create("now");
     $f = fopen ("data/".date_format($date,"Ymd-H"),"r");
