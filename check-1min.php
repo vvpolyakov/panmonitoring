@@ -50,8 +50,10 @@ function http($srv) {
 	curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
 	curl_setopt($curl, CURLOPT_NOBODY, 1);
 	curl_setopt($curl, CURLOPT_HEADER, 1);
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 	curl_setopt($curl, CURLOPT_USERAGENT, "panmonitoring ping bot");
 	$out = curl_exec($curl);
+//	print "-----------$out ";
 	curl_close($curl);
 	if (preg_match("/200 OK/",$out)) return 1;
 	else return 0;
