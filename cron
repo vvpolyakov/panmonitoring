@@ -1,1 +1,2 @@
 0 * * * * /usr/bin/php /PATH_TO_PANMONITORING/check.php
+* * * * * /usr/bin/php /PATH_TO_PANMONITORING/check_1min.php
