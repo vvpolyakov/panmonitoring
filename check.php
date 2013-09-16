@@ -31,11 +31,18 @@ foreach ($servers as  $host=>$login) {
 	    $result[$host]['state'] = "auth error";
 	} else {
 	    foreach ($services as $name=>$cmd) {
-		$result[$host][$name] = exec_ssh($cmd);
+		$max = $cmd['max'];
+		if ($max) $max=$defaultMax;
+		$result[$host][$name] = exec_ssh($cmd['cmd']);
 		$n = preg_match("/([\d\.]+)%/",$result[$host][$name],$matches);
 		if ($n>0){
 		    for ($i=1;$i<=$n;$i++) {
-			if ($matches[$i] >= $defaultMax) {alert($host,$name,$i,$matches[$i]);}
+			if (
+			    (!is_numeric($max) && $matches[$i] != $max) ||
+			    (is_numeric($max) && $matches[$i] >= $max)
+			) {
+			    alert($host,$name,$i,$matches[$i],$max);
+			}
 		    }
 		}
 	    }
@@ -49,9 +56,8 @@ $f = fopen (__DIR__."/data/".date_format($date,"Ymd-H"),"w");
 fprintf($f,"%s",json_encode($result));
 fclose($f);
 
-function alert($host,$name,$n,$value) {
+function alert($host,$name,$n,$value,$max) {
     global $email;
-    global $defaultMax;
     $date = date_create("now");
     date_add($date,date_interval_create_from_date_string("-1 hour"));
     $f = fopen (__DIR__."/data/".date_format($date,"Ymd-H"),"r");
@@ -62,7 +68,11 @@ function alert($host,$name,$n,$value) {
     $k = preg_match("/([\d\.]+)%/",$oh->{$host}->{$name},$matches);
     if ($k>0) {
 //	if ($value > $matches[$n]) {
-	if ($matches[$n] < $defaultMax) {
+	//if ($matches[$n] < $max) {
+	if(
+	    (!is_numeric($max) && $matches[$i] != $max) ||
+	    (is_numeric($max) && $matches[$i] >= $max)
+	){
 	    print "ALARM!!!!!!!!!!!!!!!!!!!\n";
 	    mail($email,"ALARM! $host - $name - $value%","ALARM! $host - $name - $value%");
 	}

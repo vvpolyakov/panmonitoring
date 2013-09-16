@@ -4,6 +4,7 @@ Panmonitoring
 Simple linux servers monitoring tool
 
 updates:
+* 16.09.2013 - Diffrent max values
 * 09.09.2013 - HTTP status check (every minute)
 * 07.09.2013 - Email notifications if ("%" >= 80) AND (previous "%" < 80)
 

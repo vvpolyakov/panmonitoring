@@ -54,11 +54,21 @@
     foreach ($servers as $host=>$login) {
 	print "<tr><td>$host</td>";
 	foreach ($services as $serv=>$cmd) {
+	    $max = $cmd['max'];
+	    if (!$max) $max = $defaultMax;
 	    $o->{$host}->{$serv} = preg_replace_callback("/([\d\.]+)%/", function ($p){
-		if ($p[1]>$defaultMax)
-		    return "<font style='font-weight:bold;color:red;font-size:150%'>$p[1]%</font>";
-		else
-		    return $p[1]."%";
+		global $max;
+		if (!is_numeric($max)) {
+		    if ($p[1]!==$max)
+			return "<font style='font-weight:bold;color:red;font-size:150%'>$p[1]</font>";
+		    else
+			return $p[1];
+		} else {
+		    if ($p[1]>$max)
+			return "<font style='font-weight:bold;color:red;font-size:150%'>$p[1]%</font>";
+		    else
+			return $p[1]."%";
+		}
 	    } , $o->{$host}->{$serv});
 	    print "<td><pre>".$o->{$host}->{$serv}."</pre></td>";
 	}
