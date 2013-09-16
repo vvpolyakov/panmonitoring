@@ -5,7 +5,6 @@ if (!is_dir(__DIR__."/data")) {
     mkdir(__DIR__."/data");
 }
 $date = date_create("now");
-print date_format($date,"Ymd-H");
 $f = fopen (__DIR__."/data/".date_format($date,"Ymd-H"),"r");
 if (!$f) exit;
 $j = fgets($f);
@@ -14,7 +13,6 @@ $o = json_decode($j);
 
 $date1h = date_create("now");
 date_add($date1h,date_interval_create_from_date_string("-1 hour"));
-print date_format($date1h,"Ymd-H");
 $f1h = fopen (__DIR__."/data/".date_format($date1h,"Ymd-H"),"r");
 $j1h = fgets($f1h);
 fclose($f1h);
@@ -24,10 +22,10 @@ $result = array();
 
 foreach ($servers as $host=>$login) {
     foreach ($functions_1min as $name=>$fn) {
-	if (!$o1h->{$host}->{$name}) $o1h->{$host}->{$name} = "";
-	if (!$o->{$host}->{$name}) $o->{$host}->{$name} = "";
+	if (!is_string($o1h->{$host}->{$name})) $o1h->{$host}->{$name} = "";
+	if (!is_string($o->{$host}->{$name})) $o->{$host}->{$name} = "";
 	$prev = substr($o1h->{$host}->{$name}.$o->{$host}->{$name}, -1);
-	$result = call_user_func($fn,$host);
+	$result = call_user_func($fn['cmd'],$host);
 	$o->{$host}->{$name} .= $result;
 	if ($result == 0 && "$prev" !== "$result") {
 	    print "ALARM!!!!!!!!!!!!!!!!!!!\n";
@@ -59,5 +57,6 @@ function http($srv) {
 	if (preg_match("/200 OK/",$out)) return 1;
 	else return 0;
     }
+    return "#";
 }
 ?>
