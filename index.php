@@ -57,7 +57,7 @@
 	    $max = $cmd['max'];
 	    if (!$max) $max = $defaultMax;
 	    if (!is_numeric($max)) {
-		if ($p[1]!==$max)
+		if ($o->{$host}->{$serv}!==$max)
 		    $o->{$host}->{$serv} = "<font style='font-weight:bold;color:red;font-size:150%'>".$o->{$host}->{$serv}."</font>";
 	    } else {
 		$o->{$host}->{$serv} = preg_replace_callback("/([\d\.]+)%/", function ($p){
