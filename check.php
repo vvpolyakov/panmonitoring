@@ -35,7 +35,7 @@ foreach ($servers as  $host=>$login) {
 		$n = preg_match("/([\d\.]+)%/",$result[$host][$name],$matches);
 		if ($n>0){
 		    for ($i=1;$i<=$n;$i++) {
-			if ($matches[$i] >= 80) {alert($host,$name,$i,$matches[$i]);}
+			if ($matches[$i] >= $defaultMax) {alert($host,$name,$i,$matches[$i]);}
 		    }
 		}
 	    }
@@ -51,6 +51,7 @@ fclose($f);
 
 function alert($host,$name,$n,$value) {
     global $email;
+    global $defaultMax;
     $date = date_create("now");
     date_add($date,date_interval_create_from_date_string("-1 hour"));
     $f = fopen (__DIR__."/data/".date_format($date,"Ymd-H"),"r");
@@ -61,7 +62,7 @@ function alert($host,$name,$n,$value) {
     $k = preg_match("/([\d\.]+)%/",$oh->{$host}->{$name},$matches);
     if ($k>0) {
 //	if ($value > $matches[$n]) {
-	if ($matches[$n] < 80) {
+	if ($matches[$n] < $defaultMax) {
 	    print "ALARM!!!!!!!!!!!!!!!!!!!\n";
 	    mail($email,"ALARM! $host - $name - $value%","ALARM! $host - $name - $value%");
 	}

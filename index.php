@@ -55,7 +55,7 @@
 	print "<tr><td>$host</td>";
 	foreach ($services as $serv=>$cmd) {
 	    $o->{$host}->{$serv} = preg_replace_callback("/([\d\.]+)%/", function ($p){
-		if ($p[1]>80)
+		if ($p[1]>$defaultMax)
 		    return "<font style='font-weight:bold;color:red;font-size:150%'>$p[1]%</font>";
 		else
 		    return $p[1]."%";

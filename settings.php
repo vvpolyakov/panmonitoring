@@ -7,6 +7,8 @@ $services=array(
     etc...
 );
 */
+$defaultMax = 95;
+
 $services=array(
 "Hostname"=>"hostname",
 "Uptime"=>"uptime | sed 's/,.*//' | sed 's/.*up //'",
