@@ -30,6 +30,7 @@ foreach ($servers as $host=>$login) {
 	if ($result == 0 && "$prev" !== "$result") {
 	    print "ALARM!!!!!!!!!!!!!!!!!!!\n";
 	    mail($email,"ALARM! $host - $name","ALARM! $host - $name");
+	    if ($servers[$host]['email']) mail($servers[$host]['email'],"ALARM! $host - $name","ALARM! $host - $name");
 	} 
     }
 }

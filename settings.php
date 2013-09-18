@@ -7,13 +7,13 @@ $services=array(
     etc...
 );
 */
-$defaultMax = 95;
+$defaultMax = 94;
 
 $services=array(
 "Hostname"=>array("cmd"=>"hostname"),
 "Uptime"=>array("cmd"=>"uptime | sed 's/,.*//' | sed 's/.*up //'"),
 "CPU"=>array("cmd"=>"top -bn1 | awk '/^Cpu/ {printf(\"%s %s\",$2,$6)} /^%Cpu/ {printf (\"%s%%us %s%%wa\",$2,$10)}'","max"=>95),
-"Mem"=>array("cmd"=>"awk 'BEGIN {} /^Mem/ {total=$2} /buffers/ {used=$3} END {printf(\"%u%%\", 100*used/total);}' <(free -m)","max"=>90),
+"Mem"=>array("cmd"=>"awk 'BEGIN {} /^Mem/ {total=$2} /buffers/ {used=$3} END {printf(\"%u%%\", 100*used/total);}' <(free -m)","max"=>20),
 "Swap"=>array("cmd"=>"awk '/^Swap/ {printf(\"%u%%\", 100*$3/$2);}' <(free -m)","max"=>90),
 "HDD"=>array("cmd"=>"df -h | awk '/\// {printf(\"%s - %u%% (%s из %s)\\n\",$1,$5,$3,$2)}' | grep '/dev'","max"=>80)
 );
@@ -28,13 +28,14 @@ $email="alarm@spam.su";
 
 /*
 $servers=array(
-    hostname1  => login1,
-    hostname2  => login2
+    hostname1  => array("login"=>"login1"),
+    hostname2  => array("login"=>"login1","email"=>"email-for-notify-only-this@server.com")
     etc...
 );
 */
 $servers=array(
-    "localhost"=>"root"
+    "localhost"=>array("login"=>"root")
+    //,"server.com"=>array("login"=>"root","email"=>"email2@spam.su")
 );
 
 /*

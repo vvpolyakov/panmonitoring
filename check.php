@@ -21,18 +21,18 @@ foreach ($all as $file) {
 
 $result = array();
 
-foreach ($servers as  $host=>$login) {
+foreach ($servers as  $host=>$hostparam) {
     $result[$host] = array();
     if(!($con = ssh2_connect($host, 22))){
 	$result[$host]['state'] = "offline";
     } else {
 	$result[$host]['state'] = "online";
-	if(!ssh2_auth_pubkey_file($con, $login, $pubkey, $privkey)) {
+	if(!ssh2_auth_pubkey_file($con, $hostparam['login'], $pubkey, $privkey)) {
 	    $result[$host]['state'] = "auth error";
 	} else {
 	    foreach ($services as $name=>$cmd) {
 		$max = $cmd['max'];
-		if ($max) $max=$defaultMax;
+		if (!$max) $max=$defaultMax;
 		$result[$host][$name] = exec_ssh($cmd['cmd']);
 		$n = preg_match("/([\d\.]+)%/",$result[$host][$name],$matches);
 		if ($n>0){
@@ -58,23 +58,24 @@ fclose($f);
 
 function alert($host,$name,$n,$value,$max) {
     global $email;
+    global $servers;
     $date = date_create("now");
     date_add($date,date_interval_create_from_date_string("-1 hour"));
     $f = fopen (__DIR__."/data/".date_format($date,"Ymd-H"),"r");
     $j = fgets($f);
     $oh = json_decode($j);
     fclose($f);
-    
     $k = preg_match("/([\d\.]+)%/",$oh->{$host}->{$name},$matches);
     if ($k>0) {
 //	if ($value > $matches[$n]) {
 	//if ($matches[$n] < $max) {
 	if(
-	    (!is_numeric($max) && $matches[$i] != $max) ||
-	    (is_numeric($max) && $matches[$i] >= $max)
+	    (!is_numeric($max) && $matches[$n] == $max) ||
+	    (is_numeric($max) && $matches[$n] < $max)
 	){
 	    print "ALARM!!!!!!!!!!!!!!!!!!!\n";
 	    mail($email,"ALARM! $host - $name - $value%","ALARM! $host - $name - $value%");
+	    if ($servers[$host]['email']) mail($servers[$host]['email'],"ALARM! $host - $name - $value%","ALARM! $host - $name - $value%");
 	}
     }
     
